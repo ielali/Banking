@@ -30,7 +30,7 @@ import java.util.Set;
  * Date: 03/11/13
  * Time: 00:45
  */
-@Component
+@Component("csvImporter")
 public class Importer {
     @Autowired
     Repository repository;

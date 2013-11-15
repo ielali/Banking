@@ -29,8 +29,17 @@
         <property name="typeConverter" ref="typeConverter"/>
     </bean>
 
-    <bean id="filter" class="risible.core.dispatch.Filter">
+    <bean id="dispatcher" class="risible.core.dispatch.Dispatcher">
         <property name="actionPackage" value="com.elali.banking.controller"/>
+        <property name="actionInvokers">
+            <map>
+                <entry key="default" value-ref="defaultActionInvoker"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean id="dispatcherFilter" class="risible.core.dispatch.DispatcherFilter">
+        <property name="dispatcher" ref="dispatcher"/>
         <property name="renderers">
             <list>
                 <ref bean="freemarkerRenderer"/>
@@ -43,10 +52,6 @@
                 <value>.ajax</value>
             </list>
         </property>
-        <property name="actionInvokers">
-            <map>
-                <entry key="default" value-ref="defaultActionInvoker"/>
-            </map>
-        </property>
+
     </bean>
 </beans>
