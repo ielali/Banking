@@ -4,54 +4,17 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
 	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
-    <bean id="abbreviateMethod" class="com.elali.banking.view.freemarker.AbbreviateMethod"/>
-
-    <bean id="freemarkerConfiguration" class="freemarker.template.Configuration" scope="prototype">
-        <property name="templateLoader">
-            <bean class="risible.freemarker.ClasspathTemplateLoader"/>
-        </property>
-        <property name="tagSyntax" value="2"/>
-        <property name="defaultEncoding" value="UTF-8"/>
-        <property name="ObjectWrapper">
-            <bean class="risible.freemarker.SeriousBeanModelObjectWrapper"/>
-        </property>
+    <bean id="risibleConfiguration" class="risible.core.Configuration">
+        <property name="controllerPackageName" value="com.elali.banking.controller"/>
     </bean>
 
-    <bean id="freemarkerRenderer" class="risible.freemarker.FreemarkerRenderer">
-        <property name="freemarkerConfiguration" ref="freemarkerConfiguration"/>
-    </bean>
 
-    <bean id="jsonRenderer" class="risible.json.JsonRenderer"/>
-
-    <bean id="typeConverter" class="com.elali.banking.TypeConverter"/>
-
-    <bean id="defaultActionInvoker" class="risible.core.dispatch.DataBindingActionInvoker">
-        <property name="typeConverter" ref="typeConverter"/>
-    </bean>
-
-    <bean id="dispatcher" class="risible.core.dispatch.Dispatcher">
-        <property name="actionPackage" value="com.elali.banking.controller"/>
-        <property name="actionInvokers">
-            <map>
-                <entry key="default" value-ref="defaultActionInvoker"/>
-            </map>
-        </property>
-    </bean>
-
-    <bean id="dispatcherFilter" class="risible.core.dispatch.DispatcherFilter">
-        <property name="dispatcher" ref="dispatcher"/>
-        <property name="renderers">
+    <bean id="compositeDispatcherFilter" class="risible.core.dispatch.CompositeDispatcherFilter">
+        <property name="filters">
             <list>
-                <ref bean="freemarkerRenderer"/>
-                <ref bean="jsonRenderer"/>
+                <bean class="org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter"/>
+                <bean class="org.sitemesh.config.ConfigurableSiteMeshFilter"/>
             </list>
         </property>
-        <property name="extensions">
-            <list>
-                <value>.html</value>
-                <value>.ajax</value>
-            </list>
-        </property>
-
     </bean>
 </beans>

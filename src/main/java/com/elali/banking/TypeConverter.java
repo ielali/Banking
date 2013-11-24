@@ -4,6 +4,7 @@ import com.elali.banking.dao.Repository;
 import com.elali.banking.domain.DomainObject;
 
 import javax.annotation.Resource;
+import javax.inject.Named;
 import java.io.Serializable;
 import java.lang.reflect.Member;
 import java.util.Map;
@@ -16,6 +17,7 @@ import static risible.util.ClassUtils.getParameterizedTypes;
  * Date: 10/15/13
  * Time: 1:07 PM
  */
+@Named("typeConverter")
 public class TypeConverter extends risible.core.TypeConverter {
     @Resource
     Repository repository;
